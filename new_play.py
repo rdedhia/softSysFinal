@@ -73,12 +73,13 @@ def main():
 	plotError = []
 	plotI = []
 	plotV =[]
+	plotSP = []
 
 	while escape != 'graph':
 		if escape:
 			setpoint = float(escape)
 		error = setpoint - actual
-		voltage, i = controller(error, .9, .5, prev, i)
+		voltage, i = controller(error, .8, 0, prev, i)
 		delta = plant(voltage)
 		actual += delta
 		print actual
@@ -87,6 +88,7 @@ def main():
 		#printVars
 		output.append(actual)
 		plotI.append(i)
+		plotSP.append(setpoint)
 		plotError.append(error)
 		plotV.append(voltage)
 		escape = raw_input()
@@ -95,7 +97,7 @@ def main():
 	plot.title('System Output Over Time')
 	plot.xlabel('Iterations')
 	plot.ylabel('Output')
-	plot.plot(setpoint*numpy.ones(len(output)))
+	plot.plot(plotSP)
 	plot.plot(output)
 	plot.legend(['setpoint', 'output'])
 	#plot.axis([0, len(output), startVal, setpoint + 5])
